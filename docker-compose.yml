@@ -1,0 +1,33 @@
+
+services:
+  php:
+    build:
+      context: ./MyWebApp/php-app
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      MYSQL_DATABASE: mydata
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ""  # No password for root
+
+  java:
+    build:
+      context: ./MyWebApp/java-app
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ""  # No root password
+      MYSQL_DATABASE: mydata
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ""  # No password for root
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
